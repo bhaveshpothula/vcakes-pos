@@ -1,4 +1,4 @@
-import { Role, LogType } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
 import prisma from "../src/lib/db";
 
