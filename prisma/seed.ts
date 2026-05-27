@@ -20,7 +20,7 @@ async function main() {
       email: "admin@bakery.com",
       name: "Admin User",
       passwordHash: adminPasswordHash,
-      role: role: "ADMIN",
+      role: "ADMIN",
     },
   });
 
@@ -33,7 +33,7 @@ async function main() {
       email: "staff@bakery.com",
       name: "Staff User",
       passwordHash: staffPasswordHash,
-      role: role: "STAFF",
+      role: "STAFF",
     },
   });
 
