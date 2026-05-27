@@ -160,7 +160,7 @@ async function main() {
             changeQty: 30,
             previousQty: 0,
             currentQty: 30,
-            type: LogType.INITIAL,
+            type: "INITIAL",
             notes: "Seed database initialization",
           },
         });
