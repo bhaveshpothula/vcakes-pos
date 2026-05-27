@@ -1,26 +1,223 @@
 @import "tailwindcss";
 
+@theme {
+  /* Vanilla-white and espresso-black base color overrides */
+  --color-white: #FCFBF9;
+  --color-black: #120C09;
+
+  /* Warm Cacao Neutral scale overrides */
+  --color-neutral-50: #FDFBF7;
+  --color-neutral-100: #FAF5EE;
+  --color-neutral-200: #F1E6D8;
+  --color-neutral-300: #E3D0BE;
+  --color-neutral-400: #CBB199;
+  --color-neutral-500: #A6886D;
+  --color-neutral-600: #866850;
+  --color-neutral-700: #654E3C;
+  --color-neutral-800: #463529;
+  --color-neutral-900: #2B2019;
+  --color-neutral-950: #18120E;
+
+  /* Aliases to map zinc and gray classes to warm neutrals */
+  --color-zinc-50: var(--color-neutral-50);
+  --color-zinc-100: var(--color-neutral-100);
+  --color-zinc-200: var(--color-neutral-200);
+  --color-zinc-300: var(--color-neutral-300);
+  --color-zinc-400: var(--color-neutral-400);
+  --color-zinc-500: var(--color-neutral-500);
+  --color-zinc-600: var(--color-neutral-600);
+  --color-zinc-700: var(--color-neutral-700);
+  --color-zinc-800: var(--color-neutral-800);
+  --color-zinc-900: var(--color-neutral-900);
+  --color-zinc-950: var(--color-neutral-950);
+
+  --color-gray-50: var(--color-neutral-50);
+  --color-gray-100: var(--color-neutral-100);
+  --color-gray-200: var(--color-neutral-200);
+  --color-gray-300: var(--color-neutral-300);
+  --color-gray-400: var(--color-neutral-400);
+  --color-gray-500: var(--color-neutral-500);
+  --color-gray-600: var(--color-neutral-600);
+  --color-gray-700: var(--color-neutral-700);
+  --color-gray-800: var(--color-neutral-800);
+  --color-gray-900: var(--color-neutral-900);
+  --color-gray-950: var(--color-neutral-950);
+
+  /* Vcakes Brand Orange scale */
+  --color-orange-50: #FFF9F3;
+  --color-orange-100: #FFEFE0;
+  --color-orange-200: #FFDEC2;
+  --color-orange-300: #FFC494;
+  --color-orange-400: #FFA25C;
+  --color-orange-500: #F47A1F; /* Primary brand orange */
+  --color-orange-600: #E0650D;
+  --color-orange-700: #B84E06;
+  --color-orange-800: #913C07;
+  --color-orange-900: #733007;
+
+  /* Luxury bakery alert gold scale (overrides standard yellow/amber) */
+  --color-amber-50: #FFFDF9;
+  --color-amber-100: #FEF7E6;
+  --color-amber-200: #FCE6B9;
+  --color-amber-300: #FAD082;
+  --color-amber-400: #F7B54C;
+  --color-amber-500: #D4AF37; /* Brand warm gold */
+  --color-amber-600: #B79029;
+  --color-amber-700: #93701E;
+  --color-amber-800: #705315;
+  --color-amber-900: #513B0E;
+
+  /* Custom Bakery variables */
+  --color-bakery-orange: #F47A1F;
+  --color-bakery-orange-dark: #B84E06;
+  --color-bakery-cream: #FAF5EE;
+  --color-bakery-dark: #18120E;
+  --color-bakery-gold: #F47A1F;
+  --color-bakery-warm: #B84E06;
+  --font-outfit: "Outfit", sans-serif;
+
+  /* Theme tokens mapping for tailwind classes */
+  --color-bakery-background: var(--background);
+  --color-bakery-foreground: var(--foreground);
+  --color-bakery-card: var(--card);
+  --color-bakery-card-foreground: var(--card-foreground);
+  --color-bakery-border: var(--border);
+  --color-bakery-muted: var(--muted);
+  --color-bakery-muted-foreground: var(--muted-foreground);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FAF5EE;       /* Softer cream bakery background */
+  --foreground: #18120E;       /* Rich dark espresso text */
+  --card: #FFFFFF;
+  --card-foreground: #18120E;
+  --border: #E3D0BE;           /* Soft latte/beige border */
+  --muted: #866850;            /* Medium cacao */
+  --muted-foreground: #654E3C; /* Rich chocolate brown */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Force dark class when active on html */
+html.dark {
+  --background: #18120E;       /* Dark espresso background */
+  --foreground: #FAF5EE;       /* Soft cream text */
+  --card: #2B2019;             /* Cacao card background */
+  --card-foreground: #FAF5EE;
+  --border: #463529;           /* Deep coffee border */
+  --muted: #A6886D;            /* Soft warm beige */
+  --muted-foreground: #CBB199; /* Warm tan */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-outfit), Arial, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Custom scrollbars with brand styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(244, 122, 31, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 122, 31, 0.45);
+}
+
+/* Print Invoice Styling */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  #printable-receipt,
+  #printable-receipt * {
+    visibility: visible !important;
+  }
+  #printable-receipt {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 80mm !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* POS specific styles */
+.pos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .pos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(227, 208, 190, 0.6);
+}
+
+html.dark .glass-panel {
+  background: rgba(43, 32, 25, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(70, 53, 41, 0.6);
+}
+
+/* Premium Vcakes Branding & Typography overrides */
+h1, h2, h3, .brand-title {
+  font-family: Georgia, 'Times New Roman', serif !important;
+  letter-spacing: -0.01em;
+}
+
+/* Glassmorphism & luxury card shadows */
+.glass-panel, [class*="bg-[var(--card)]"], [class*="bg-bakery-card"] {
+  box-shadow: 0 12px 35px -12px rgba(24, 18, 14, 0.1), 
+              0 1px 3px -1px rgba(24, 18, 14, 0.05) !important;
+}
+
+html.dark .glass-panel, html.dark [class*="bg-[var(--card)]"], html.dark [class*="bg-bakery-card"] {
+  box-shadow: 0 25px 50px -20px rgba(0, 0, 0, 0.75),
+              0 1px 0 0 rgba(244, 122, 31, 0.08) inset !important;
+}
+
+/* Custom premium hover states for buttons and tabs */
+button, a {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+button:hover:not(:disabled), a:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled), a:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Custom glowing brand orange focus outlines */
+input:focus, select:focus, textarea:focus {
+  outline: none !important;
+  border-color: #F47A1F !important;
+  box-shadow: 0 0 0 3px rgba(244, 122, 31, 0.18) !important;
+}
+
+/* Custom selection styling */
+::selection {
+  background-color: rgba(244, 122, 31, 0.2);
+  color: #F47A1F;
 }

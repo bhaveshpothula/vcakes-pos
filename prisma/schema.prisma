@@ -1,0 +1,154 @@
+datasource db {
+  provider = "postgresql"
+}
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  STAFF
+}
+
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  name         String
+  passwordHash String
+  role         Role       @default(STAFF)
+  isActive     Boolean    @default(true)
+  isDeleted    Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  sales        Sale[]
+  auditLogs    AuditLog[]
+
+  @@index([email])
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  items     Item[]
+}
+
+model Item {
+  id                 String         @id @default(uuid())
+  name               String
+  stock              Int            @default(0)
+  lowStockThreshold  Int            @default(10)
+  isActive           Boolean        @default(true)
+  isDeleted          Boolean        @default(false)
+  categoryId         String
+  category           Category       @relation(fields: [categoryId], references: [id])
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  saleItems          SaleItem[]
+  inventoryLogs      InventoryLog[]
+
+  @@unique([name, categoryId])
+}
+
+
+enum SaleStatus {
+  PAID
+  PENDING
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  UPI
+  CARD
+}
+
+model Sale {
+  id            String     @id @default(uuid())
+  transactionId String     @unique
+  totalAmount   Float
+  notes         String?
+  staffId       String
+  staff         User       @relation(fields: [staffId], references: [id])
+  isDeleted     Boolean    @default(false)
+  deletedAt     DateTime?
+  customerName  String?
+  customerPhone String?
+  status        SaleStatus @default(PAID)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  saleItems     SaleItem[]
+  payments      Payment[]
+
+  @@index([transactionId])
+  @@index([createdAt])
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  saleId        String
+  sale          Sale          @relation(fields: [saleId], references: [id])
+  method        PaymentMethod
+  amount        Float
+  referenceNo   String?
+  notes         String?
+  createdAt     DateTime      @default(now())
+}
+
+model SaleItem {
+  id          String   @id @default(uuid())
+  saleId      String
+  sale        Sale     @relation(fields: [saleId], references: [id])
+  itemId      String
+  item        Item     @relation(fields: [itemId], references: [id])
+  itemName    String   // Store name at sale time (incase item is renamed)
+  price       Float    // Store price at sale time (incase price changes)
+  quantity    Int
+  totalAmount Float
+  note        String?  // Optional note for custom cake/item details
+  createdAt   DateTime @default(now())
+}
+
+enum LogType {
+  SALE
+  MANUAL_UPDATE
+  INITIAL
+  RESTORE
+}
+
+model InventoryLog {
+  id          String   @id @default(uuid())
+  itemId      String
+  item        Item     @relation(fields: [itemId], references: [id])
+  changeQty   Int
+  previousQty Int
+  currentQty  Int
+  type        LogType
+  notes       String?
+  createdAt   DateTime @default(now())
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String   // E.g. "CREATE_ITEM", "UPDATE_STOCK", "SOFT_DELETE_SALE"
+  targetTable String   // E.g. "Item", "Sale", "User"
+  targetId    String?
+  details     String?  // JSON details of changes
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model BackupLog {
+  id          String   @id @default(uuid())
+  fileName    String
+  backupType  String   // "AUTO" or "MANUAL"
+  status      String   // "SUCCESS" or "FAILED"
+  dataContent String   // Stringified JSON content of database backup
+  errorLog    String?
+  createdAt   DateTime @default(now())
+}

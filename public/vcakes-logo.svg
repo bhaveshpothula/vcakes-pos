@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Radiating Chevron Emblem in brand orange -->
+  <g transform="translate(60, 42)" stroke="#F47A1F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="rotate(0)"><path d="M -6 -16 L 0 -8 L 6 -16" /></g>
+    <g transform="rotate(45)"><path d="M -6 -16 L 0 -8 L 6 -16" /></g>
+    <g transform="rotate(90)"><path d="M -6 -16 L 0 -8 L 6 -16" /></g>
+    <g transform="rotate(135)"><path d="M -6 -16 L 0 -8 L 6 -16" /></g>
+    <g transform="rotate(180)"><path d="M -6 -16 L 0 -8 L 6 -16" /></g>
+    <g transform="rotate(225)"><path d="M -6 -16 L 0 -8 L 6 -16" /></g>
+    <g transform="rotate(270)"><path d="M -6 -16 L 0 -8 L 6 -16" /></g>
+    <g transform="rotate(315)"><path d="M -6 -16 L 0 -8 L 6 -16" /></g>
+  </g>
+  
+  <!-- Serif Vcakes Brand Text in brand orange -->
+  <text x="60" y="98" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25" font-weight="bold" fill="#F47A1F" letter-spacing="-0.5">Vcakes</text>
+</svg>
