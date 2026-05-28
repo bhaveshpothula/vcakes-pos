@@ -154,7 +154,7 @@ export async function POST(req: NextRequest) {
     const txId = generateTransactionId();
 
     // Run checkout inside transaction
-    const saleResult = await prisma.$transaction(async (tx) => {
+    const saleResult = await prisma.$transaction(async (tx: any) => {
       let totalAmount = 0;
       const saleItemData = [];
       const inventoryLogs = [];

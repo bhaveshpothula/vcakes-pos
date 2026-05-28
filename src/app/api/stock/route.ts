@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       const item = await tx.item.findUnique({
         where: { id: itemId },
       });

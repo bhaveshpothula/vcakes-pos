@@ -100,7 +100,7 @@ export async function DELETE(req: NextRequest, props: { params: Promise<{ id: st
     }
 
     // Run cascade soft delete in a transaction: soft-delete Category, and soft-delete all items inside it
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       // 1. Soft delete Category
       const cat = await tx.category.update({
         where: { id: categoryId },

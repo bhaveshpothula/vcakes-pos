@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
     if (duplicate) {
       if (duplicate.isDeleted) {
         // Restore soft-deleted item and update its stats
-        const restoredItem = await prisma.$transaction(async (tx) => {
+        const restoredItem = await prisma.$transaction(async (tx: any) => {
           const item = await tx.item.update({
             where: { id: duplicate.id },
             data: {
@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create item inside a transaction
-    const newItem = await prisma.$transaction(async (tx) => {
+    const newItem = await prisma.$transaction(async (tx: any) => {
       const item = await tx.item.create({
         data: {
           name: name.trim(),

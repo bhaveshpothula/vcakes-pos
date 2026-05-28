@@ -83,7 +83,7 @@ export async function DELETE(req: NextRequest, props: { params: Promise<{ id: st
 
     // Execute soft delete and inventory restoration inside a transaction
     console.log(`[API DELETE] Executing soft delete transaction for TXID: ${sale.transactionId}...`);
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       // 1. Mark sale as deleted and update status to REFUNDED, record deletedAt
       await tx.sale.update({
         where: { id: saleId },
@@ -174,7 +174,7 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ id: strin
       return NextResponse.json({ error: "Invalid status. Must be PAID or PENDING." }, { status: 400 });
     }
 
-    const updatedSale = await prisma.$transaction(async (tx) => {
+    const updatedSale = await prisma.$transaction(async (tx: any) => {
       // 1. Update status
       const updated = await tx.sale.update({
         where: { id: saleId },
