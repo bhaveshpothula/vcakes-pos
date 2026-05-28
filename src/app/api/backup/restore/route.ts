@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     const { users, categories, items, sales, saleItems, inventoryLogs, auditLogs, payments } = backup.data;
 
     // Run restore inside transaction to prevent database corruption
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       // 1. Delete all existing records in dependency order (children first)
       await tx.saleItem.deleteMany();
       await tx.payment.deleteMany();
