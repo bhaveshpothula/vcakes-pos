@@ -7,7 +7,7 @@ import { LogType, Role } from "@prisma/client";
 export async function POST(req: NextRequest) {
   try {
     const sessionUser = await getUserFromSession(req);
-    if (!sessionUser || sessionUser.role !== Role.ADMIN) {
+    if (!sessionUser || sessionUser.role !== "ADMIN") {
       return NextResponse.json(
         { error: "Unauthorized. Admin privileges required." },
         { status: 403 }
@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const sessionUser = await getUserFromSession(req);
-    if (!sessionUser || sessionUser.role !== Role.ADMIN) {
+    if (!sessionUser || sessionUser.role !== "ADMIN") {
       return NextResponse.json(
         { error: "Unauthorized." },
         { status: 401 }

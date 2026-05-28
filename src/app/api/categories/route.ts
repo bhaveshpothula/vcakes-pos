@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { getUserFromSession } from "@/lib/auth-server";
 import { writeAuditLog } from "@/lib/audit";
-import { Role } from "@prisma/client";
 
 export async function GET(req: NextRequest) {
   try {
@@ -36,7 +35,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const sessionUser = await getUserFromSession(req);
-    if (!sessionUser || sessionUser.role !== Role.ADMIN) {
+    if (!sessionUser || sessionUser.role !== "ADMIN") {
       return NextResponse.json(
         { error: "Unauthorized. Admin access required." },
         { status: 403 }

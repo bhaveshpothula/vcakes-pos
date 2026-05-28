@@ -57,7 +57,7 @@ export async function DELETE(req: NextRequest, props: { params: Promise<{ id: st
       return NextResponse.json({ error: "Unauthorized. Please log in." }, { status: 401 });
     }
 
-    if (sessionUser.role !== Role.ADMIN) {
+    if (sessionUser.role !== "ADMIN") {
       console.warn(`[API DELETE] Forbidden access: User "${sessionUser.email}" (${sessionUser.role}) attempted to delete sale: ${saleId}`);
       return NextResponse.json(
         { error: "Unauthorized. Admin privileges required to delete transactions." },

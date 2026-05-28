@@ -3,13 +3,12 @@ import prisma from "@/lib/db";
 import { hashPassword } from "@/lib/auth";
 import { getUserFromSession } from "@/lib/auth-server";
 import { writeAuditLog } from "@/lib/audit";
-import { Role } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
   try {
     // Verify admin session
     const sessionUser = await getUserFromSession(req);
-    if (!sessionUser || sessionUser.role !== Role.ADMIN) {
+    if (!sessionUser || sessionUser.role !== "ADMIN") {
       return NextResponse.json(
         { error: "Forbidden. Admin access required." },
         { status: 403 }

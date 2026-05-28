@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { getUserFromSession } from "@/lib/auth-server";
 import { writeAuditLog } from "@/lib/audit";
-import { Role } from "@prisma/client";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -10,7 +9,7 @@ import * as path from "path";
 export async function GET(req: NextRequest) {
   try {
     const sessionUser = await getUserFromSession(req);
-    if (!sessionUser || sessionUser.role !== Role.ADMIN) {
+    if (!sessionUser || sessionUser.role !== "ADMIN") {
       return NextResponse.json({ error: "Forbidden." }, { status: 403 });
     }
 
@@ -40,7 +39,7 @@ export async function POST(req: NextRequest) {
   let sessionUser;
   try {
     sessionUser = await getUserFromSession(req);
-    if (!sessionUser || sessionUser.role !== Role.ADMIN) {
+    if (!sessionUser || sessionUser.role !== "ADMIN") {
       return NextResponse.json({ error: "Forbidden." }, { status: 403 });
     }
 
