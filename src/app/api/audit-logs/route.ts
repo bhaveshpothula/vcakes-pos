@@ -5,7 +5,7 @@ import { getUserFromSession } from "@/lib/auth-server";
 export async function GET(req: NextRequest) {
   try {
     const sessionUser = await getUserFromSession(req);
-    if (!sessionUser || sessionUser.role !== Role.ADMIN) {
+    if (!sessionUser || sessionUser.role !== "ADMIN"){
       return NextResponse.json({ error: "Forbidden." }, { status: 403 });
     }
 
