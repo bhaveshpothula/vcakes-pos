@@ -86,7 +86,6 @@ export async function POST(req: NextRequest) {
         name,
         email: formattedEmail,
         passwordHash: hashedPassword,
-        role: Role.STAFF,
       },
     });
 
