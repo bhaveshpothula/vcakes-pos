@@ -611,7 +611,9 @@ const totalAmount = cart.reduce(
         id: it.id,
         name: it.name,
         quantity: it.quantity,
-        price: it.price,
+price:
+  it.price *
+  (1 - ((it.discountPercent || 0) / 100)),
         note: it.note || undefined,
       })),
       notes: checkoutNotes.trim() || undefined,
