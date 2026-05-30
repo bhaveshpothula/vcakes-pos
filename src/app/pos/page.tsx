@@ -552,7 +552,6 @@ const totalAmount = cart.reduce(
       it.quantity),
   0
 );
-);
     let paymentsPayload: any[] = [];
 
     if (paymentMethod === "SPLIT") {
