@@ -33,6 +33,7 @@ interface CartItem {
   price: number;
   quantity: number;
   stock: number;
+  discountPercent: number;
   note?: string;
 }
 
@@ -476,6 +477,18 @@ export default function POSPage() {
         .filter(Boolean) as CartItem[]
     );
   };
+const updateDiscount = (cartLineId: string, discountPercent: number) => {
+  setCart((prevCart) =>
+    prevCart.map((it) =>
+      it.cartLineId === cartLineId
+        ? {
+            ...it,
+            discountPercent: Math.max(0, Math.min(100, discountPercent)),
+          }
+        : it
+    )
+  );
+};
 
   // 5. Remove item from cart
   const removeFromCart = (cartLineId: string) => {
@@ -886,6 +899,22 @@ export default function POSPage() {
                         />
                       </div>
 
+<div className="flex items-center gap-1">
+  <span className="text-xs text-bakery-muted">%</span>
+  <input
+    type="number"
+    min="0"
+    max="100"
+    value={cartItem.discountPercent || 0}
+    onChange={(e) =>
+      updateDiscount(
+        cartItem.cartLineId,
+        Number(e.target.value)
+      )
+    }
+    className="w-14 px-1.5 py-0.5 rounded-md border border-bakery-border bg-bakery-background text-xs"
+  />
+</div>
                       {/* Quantity Controls */}
                       <div className="flex items-center border border-bakery-border rounded-lg bg-bakery-card">
                         <button
@@ -905,7 +934,13 @@ export default function POSPage() {
 
                       {/* Total */}
                       <span className="font-extrabold text-sm text-bakery-orange dark:text-bakery-orange">
-                        {formatCurrency(cartItem.price * cartItem.quantity)}
+<span className="font-extrabold text-sm text-bakery-orange dark:text-bakery-orange">
+{formatCurrency(
+  cartItem.price *
+  (1 - (cartItem.discountPercent || 0) / 100) *
+  cartItem.quantity
+)}
+</span>
                       </span>
                     </div>
                   </div>
