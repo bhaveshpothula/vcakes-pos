@@ -177,7 +177,9 @@ export async function POST(req: NextRequest) {
         if (isNaN(salePrice) || salePrice < 0) {
           throw new Error(`Invalid price for item "${item.name}".`);
         }
-        const itemTotal = salePrice * cartItem.quantity;
+const discountPercent = cartItem.discountPercent || 0;
+const itemTotal =
+  salePrice * (1 - discountPercent / 100) * cartItem.quantity;
         totalAmount += itemTotal;
 
         saleItemData.push({
