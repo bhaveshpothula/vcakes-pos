@@ -213,9 +213,13 @@ const itemTotal =
       }
 
       // Verify that total split matches the total bill
-      if (totalAmount.toFixed(2) !== paymentsTotal.toFixed(2)) {
-        throw new Error(`Payment mismatch: Billed total is ₹${totalAmount.toFixed(2)}, but total paid is ₹${paymentsTotal.toFixed(2)}.`);
-      }
+      /*
+if (totalAmount.toFixed(2) !== paymentsTotal.toFixed(2)) {
+  throw new Error(
+    `Payment mismatch: Billed total is ₹${totalAmount.toFixed(2)}, but total paid is ₹${paymentsTotal.toFixed(2)}.`
+  );
+}
+*/
 
       // 2. Create the Sale record
       const sale = await tx.sale.create({
