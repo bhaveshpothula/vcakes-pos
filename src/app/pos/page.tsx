@@ -508,8 +508,15 @@ const updateDiscount = (cartLineId: string, discountPercent: number) => {
   };
 
   // 7. Calculate Cart Totals
-  const getSubtotal = () => cart.reduce((acc, it) => acc + it.price * it.quantity, 0);
-
+const getSubtotal = () =>
+  cart.reduce(
+    (acc, it) =>
+      acc +
+      it.price *
+      (1 - (it.discountPercent || 0) / 100) *
+      it.quantity,
+    0
+  );
   // 8. Checkout submit execution
   const triggerCheckout = () => {
     if (cart.length === 0) return;
