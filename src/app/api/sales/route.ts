@@ -222,10 +222,11 @@ if (totalAmount.toFixed(2) !== paymentsTotal.toFixed(2)) {
 */
 
       // 2. Create the Sale record
+const discountedTotal = totalAmount;
       const sale = await tx.sale.create({
         data: {
           transactionId: txId,
-          totalAmount,
+totalAmount: discountedTotal,
           notes,
           customerName: customerName ? customerName.trim() : null,
           customerPhone: customerPhone ? customerPhone.trim() : null,
