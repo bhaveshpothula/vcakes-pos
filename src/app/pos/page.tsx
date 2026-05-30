@@ -544,14 +544,14 @@ const getSubtotal = () =>
 
   const executeCheckout = async () => {
     if (cart.length === 0) return;
-
 const totalAmount = cart.reduce(
-  (acc, item) =>
+  (acc, it) =>
     acc +
-    item.price *
-    (1 - (item.discountPercent || 0) / 100) *
-    item.quantity,
+    (it.price *
+      (1 - ((it.discountPercent || 0) / 100)) *
+      it.quantity),
   0
+);
 );
     let paymentsPayload: any[] = [];
 
