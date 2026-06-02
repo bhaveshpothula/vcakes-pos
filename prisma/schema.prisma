@@ -53,7 +53,16 @@ model Item {
 
   @@unique([name, categoryId])
 }
-
+model InventoryEntry {
+  id           String   @id @default(cuid())
+  itemId       String
+  itemName     String
+  previousQty  Int
+  addedQty     Int
+  newQty       Int
+  note         String?
+  createdAt    DateTime @default(now())
+}
 
 enum SaleStatus {
   PAID
