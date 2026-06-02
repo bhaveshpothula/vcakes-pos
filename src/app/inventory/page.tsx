@@ -395,6 +395,12 @@ export default function InventoryPage() {
             >
               <Plus className="w-3.5 h-3.5" /> Add Item
             </button>
+<button
+  onClick={() => window.location.href = "/inventory-history"}
+  className="px-4 py-2 rounded-lg text-xs font-semibold border border-bakery-border hover:bg-bakery-cream transition-all"
+>
+  Inventory History
+</button>
           </div>
         </div>
 
