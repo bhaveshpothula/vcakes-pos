@@ -721,9 +721,14 @@ price:
 
   // Filters catalog list
   const filteredItems = items.filter((item) => {
+    const isSearching = searchQuery.trim() !== "";
     const matchesSearch =
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.category.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+    if (isSearching) {
+      return matchesSearch;
+    }
 
     const matchesCategory =
       selectedCategory === "All" || item.categoryId === selectedCategory;
@@ -796,7 +801,7 @@ price:
                 <Loader2 className="w-10 h-10 text-bakery-orange animate-spin" />
                 <p className="text-sm text-bakery-muted">Loading catalog items...</p>
               </div>
-            ) : !selectedCategory ? (
+            ) : (!selectedCategory && searchQuery.trim() === "") ? (
               <div className="text-center py-24 text-bakery-muted bg-bakery-card rounded-xl border border-bakery-border flex flex-col items-center justify-center gap-3 shadow-xs">
                 <Sparkles className="w-10 h-10 text-bakery-orange/30 animate-pulse" />
                 <p className="text-sm font-semibold tracking-wide">
