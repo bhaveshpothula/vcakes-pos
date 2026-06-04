@@ -33,9 +33,15 @@ export default function InventoryPage() {
   const [activeTab, setActiveTab] = useState<"items" | "categories" | "deleted">("items");
   const [categories, setCategories] = useState<Category[]>([]);
   const [items, setItems] = useState<Item[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [deletedItems, setDeletedItems] = useState<Item[]>([]);
   const [deletedCategories, setDeletedCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const filteredItems = items.filter(item =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.category?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Form Modal States
   const [showItemModal, setShowItemModal] = useState(false);
@@ -403,6 +409,15 @@ export default function InventoryPage() {
 </button>
           </div>
         </div>
+<div className="mb-4">
+  <input
+    type="text"
+    placeholder="🔍 Search item..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    className="w-full p-3 border border-bakery-border rounded-lg"
+  />
+</div>
 
         {/* Tab Selection */}
         <div className="flex border-b border-bakery-border gap-6">
@@ -438,7 +453,6 @@ export default function InventoryPage() {
           </button>
         </div>
 
-        {/* Content Render */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
             <Loader2 className="w-10 h-10 text-bakery-orange animate-spin" />
@@ -461,12 +475,12 @@ export default function InventoryPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--border)]">
-                    {items.length === 0 ? (
+                    {filteredItems.length === 0 ? (
                       <tr>
                         <td colSpan={5} className="p-8 text-center text-bakery-muted">No items available. Add some products!</td>
                       </tr>
                     ) : (
-                      items.map((item) => {
+                      filteredItems.map((item) => {                    
                         const isLowStock = item.stock <= item.lowStockThreshold;
                         return (
                           <tr key={item.id} className="hover:bg-bakery-background/50 dark:hover:bg-amber-950/5 transition-colors">
