@@ -81,6 +81,10 @@ export default function DashboardPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [graphData, setGraphData] = useState<GraphData[]>([]);
   const [categoryData, setCategoryData] = useState<CategoryAnalytic[]>([]);
+  const [inventorySummary, setInventorySummary] = useState<{ totalToday: number; lastUpdated: string | null }>({
+    totalToday: 0,
+    lastUpdated: null,
+  });
 
   // Stock Adjustment Modal States (for quick restock)
   const [showStockModal, setShowStockModal] = useState(false);
@@ -100,6 +104,9 @@ export default function DashboardPage() {
         setTransactions(data.recentTransactions);
         setGraphData(data.dailyRevenueGraph);
         setCategoryData(data.categoryAnalytics);
+        if (data.inventorySummary) {
+          setInventorySummary(data.inventorySummary);
+        }
       } else {
         showToast("Failed to fetch dashboard metrics.", "error");
       }
@@ -193,7 +200,7 @@ export default function DashboardPage() {
         ) : (
           <>
             {/* Top Cards grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
               {/* Card 1: Revenue Today */}
               <div className="bg-bakery-card p-5 rounded-xl border border-bakery-border shadow-xs flex items-center justify-between">
                 <div className="space-y-1 w-full">
@@ -243,6 +250,17 @@ export default function DashboardPage() {
                 </div>
                 <div className={`p-3 rounded-lg ${lowStock.length > 0 ? "bg-rose-500/10 text-rose-500" : "bg-emerald-500/10 text-emerald-500"}`}>
                   <AlertTriangle className="w-6 h-6" />
+                </div>
+              </div>
+
+              {/* Card 5: Inventory Update Log Summary */}
+              <div className="bg-bakery-card p-5 rounded-xl border border-bakery-border shadow-xs flex items-center justify-between">
+                <div className="space-y-1 w-full flex flex-col justify-between h-full">
+                  <span className="text-xs text-bakery-muted font-bold uppercase tracking-wider">Stock Logs Today</span>
+                  <h3 className="text-2xl font-extrabold text-bakery-orange">{inventorySummary.totalToday} Logs</h3>
+                  <div className="text-[9px] font-bold text-bakery-muted pt-1 border-t border-bakery-border mt-1 truncate" title={inventorySummary.lastUpdated ? new Date(inventorySummary.lastUpdated).toLocaleString() : "Never"}>
+                    <span>Last: {inventorySummary.lastUpdated ? new Date(inventorySummary.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "Never"}</span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -24,6 +24,7 @@ model User {
   updatedAt    DateTime   @updatedAt
   sales        Sale[]
   auditLogs    AuditLog[]
+  inventoryLogs InventoryLog[]
 
   @@index([email])
 }
@@ -139,6 +140,9 @@ model InventoryLog {
   type        LogType
   notes       String?
   createdAt   DateTime @default(now())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  userName    String?
 }
 
 model AuditLog {

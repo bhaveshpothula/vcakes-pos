@@ -27,6 +27,8 @@ export async function GET(req: NextRequest) {
       paymentsToday,
       paymentsThisMonth,
       salesWithPaymentsToday,
+      inventoryLogsTodayCount,
+      lastInventoryLog,
     ] = await Promise.all([
       // 1. Sales today
       prisma.sale.aggregate({
@@ -114,6 +116,17 @@ export async function GET(req: NextRequest) {
         include: {
           payments: { select: { id: true } },
         },
+      }),
+      // 9. Inventory logs today count
+      prisma.inventoryLog.count({
+        where: {
+          createdAt: { gte: startOfToday },
+        },
+      }),
+      // 10. Last inventory log timestamp
+      prisma.inventoryLog.findFirst({
+        orderBy: { createdAt: "desc" },
+        select: { createdAt: true },
       }),
     ]);
 
@@ -280,6 +293,10 @@ export async function GET(req: NextRequest) {
       })),
       dailyRevenueGraph,
       categoryAnalytics,
+      inventorySummary: {
+        totalToday: inventoryLogsTodayCount,
+        lastUpdated: lastInventoryLog?.createdAt || null,
+      },
     });
   } catch (error) {
     console.error("Dashboard analytics error:", error);

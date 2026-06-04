@@ -401,12 +401,18 @@ export default function InventoryPage() {
             >
               <Plus className="w-3.5 h-3.5" /> Add Item
             </button>
-<button
-  onClick={() => window.location.href = "/inventory-history"}
-  className="px-4 py-2 rounded-lg text-xs font-semibold border border-bakery-border hover:bg-bakery-cream transition-all"
->
-  Inventory History
-</button>
+            <button
+              onClick={() => window.location.href = "/inventory-entry"}
+              className="px-4 py-2 rounded-lg text-xs font-semibold border border-bakery-orange text-bakery-orange hover:bg-bakery-orange/10 transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5" /> Bulk Log Entry
+            </button>
+            <button
+              onClick={() => window.location.href = "/inventory-history"}
+              className="px-4 py-2 rounded-lg text-xs font-semibold border border-bakery-border hover:bg-bakery-cream transition-all cursor-pointer"
+            >
+              Inventory History
+            </button>
           </div>
         </div>
 <div className="mb-4">
